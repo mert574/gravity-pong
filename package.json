@@ -1,0 +1,13 @@
+{
+  "name": "gravity-pong",
+  "version": "1.0.0",
+  "description": "Pong game created in JS",
+  "scripts": {
+    "start": "./node_modules/.bin/serve"
+  },
+  "author": "IRL",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^10.0.2"
+  }
+}

@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    background-color: #292929;
+    font: 16px Roboto;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    padding: 16px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+canvas {
+    border: 2px groove #474747;
+    border-radius: 3px;
+    /*zoom: 1.5;*/
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
