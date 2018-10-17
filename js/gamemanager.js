@@ -99,11 +99,11 @@ export default class GameManager {
             if (entity.overlaps(e)) {
                 if (entity.vel.x > 0) { //goes right
                     entity.pos.x = e.left - entity.size.x;
-                    entity.vel.x = 0;
+                    //entity.vel.x = 0;
                     
                 } else if (entity.vel.x < 0) { //goes left
                     entity.pos.x = e.right;    
-                    entity.vel.x = 0;
+                    //entity.vel.x = 0;
                 }
 
                 entity.collideEvent(e);

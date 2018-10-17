@@ -7,7 +7,7 @@ export default class Player extends Entity {
     constructor(x, y, w=80, h=16) {
         super('bar', x, y, w, h);
         
-        this.dragCoefficient = 10;
+        this.dragCoefficient = 20;
         this.speed = 300;
         this.keyManager = new KeyManager();
         this.keyManager.addKey(37, isPressed=>{ K_LEFT = isPressed });
