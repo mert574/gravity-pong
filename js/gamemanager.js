@@ -5,6 +5,7 @@ import Player from './player.js';
 let lastTime = 0;
 const EPSILON = 10;
 
+
 export default class GameManager {
     constructor(context, width, height, ballSize=8) {
         this.context = context;
@@ -13,6 +14,9 @@ export default class GameManager {
         this.ballSize  = ballSize;
         this.width = width;
         this.height = height;
+
+        this.middleBarH = 100;
+        this.middleBarW = 5;
 
         this.update = this.update.bind(this);
 
@@ -44,7 +48,11 @@ export default class GameManager {
         this.entities.push(
             new Entity('fixed', 0, -5,this.width, 5));
         this.entities.push(
-            new Entity('fixed', 0, this.height, this.width, 5));
+            new Entity('gameover', 0, this.height, this.width, 5));
+
+        this.entities.push(
+            new Entity('fixed', (this.width/2) - this.middleBarW/2, 
+                (this.height-this.middleBarH), this.middleBarW, this.middleBarH));
     }
 
     update(d=0) {
@@ -99,11 +107,11 @@ export default class GameManager {
             if (entity.overlaps(e)) {
                 if (entity.vel.x > 0) { //goes right
                     entity.pos.x = e.left - entity.size.x;
-                    //entity.vel.x = 0;
+                    entity.vel.x = 0;
                     
                 } else if (entity.vel.x < 0) { //goes left
                     entity.pos.x = e.right;    
-                    //entity.vel.x = 0;
+                    entity.vel.x = 0;
                 }
 
                 entity.collideEvent(e);

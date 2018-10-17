@@ -13,13 +13,12 @@ export default class Ball extends Entity {
         this.collideEvent = entity => {
             if (entity.type === 'bar' && this.jumping <= 0) {
                 const diff = (entity.pos.x + entity.size.x / 2) - this.pos.x;
+                this.vel.x = diff * - 6;
 
                 let heightCoeff = 1 - (Math.abs(diff) / 40);
                 heightCoeff = Math.min(1, Math.max(0.5, heightCoeff));
 
-                this.jumping = this.maxJumpDuration * heightCoeff;
-                this.vel.y = -this.jumpSpeed;
-                this.vel.x = diff * - 6;
+                this.bounce(heightCoeff);
 
             } else if (entity.type === 'fixed') {
                 if (entity.right === this.left) {
@@ -27,9 +26,11 @@ export default class Ball extends Entity {
                 } else if (entity.left === this.right) {
                     this.vel.x = this.jumpSpeed / -5;
                 } else if (entity.top === this.bottom) {
-                    //TODO: add game over
-                    console.log('over');
+                    //this.vel.x = this.jumpSpeed / 5 * (Math.random() > 0.5 ? -1 : 1);
+                    this.bounce(this.vel.y / 20);
                 }
+            } else if (entity.type === 'gameover') {
+                //TODO: add game over
             }
         };
     }
@@ -39,7 +40,13 @@ export default class Ball extends Entity {
             this.vel.y -= this.jumpSpeed * deltaTime;
             this.jumping -= deltaTime;            
         } else {
-            this.vel.y += this.gravity * deltaTime;
+            if (this.vel.y < 500)
+                this.vel.y += this.gravity * deltaTime;
         }
+    }
+
+    bounce(coeff) {
+        this.jumping = this.maxJumpDuration * coeff;
+        this.vel.y = -this.jumpSpeed;
     }
 }
