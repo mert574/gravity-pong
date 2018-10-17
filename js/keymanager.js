@@ -6,14 +6,28 @@ export default class KeyManager {
         this.keys = new Map();
         this.keyStates = new Map();
 
+        this.$handlers = [];
+
         ['keydown', 'keyup'].forEach(eventName=>{
-            document.addEventListener(eventName, this._handleEvent.bind(this));
+            this.$handlers.push(
+                document.addEventListener(eventName, this._handleEvent.bind(this))
+            );
         });
     }
 
     addKey(keyCode, callback) {
         this.keys.set(keyCode, callback);
         this.keyStates.set(keyCode, NOT_PRESSED);
+    }
+
+    destroy() {
+        for (h of this.$handlers) {
+            ['keydown', 'keyup'].forEach(eventName=>{
+                document.removeEventListener(eventName, h);
+            });
+        }
+        
+        this.$handlers = [];
     }
 
     _handleEvent(event) {

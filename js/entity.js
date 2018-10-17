@@ -21,43 +21,6 @@ export default class Entity {
             && this.right  > entity.left;
     }
 
-    checkX(entities) {
-        for (let e of entities) {
-            if (e === this) continue;
-
-            if (this.overlaps(e)) {
-                if (this.vel.x > 0) { //goes right
-                    this.pos.x = e.left - this.size.x;
-                    this.vel.x = 0;
-                    
-                } else if (this.vel.x < 0) { //goes left
-                    this.pos.x = e.right;    
-                    this.vel.x = 0;
-                }
-
-                this.collideEvent(e);
-            }
-        }
-    }
-
-    checkY(entities) {
-        for (let e of entities) {
-            if (e === this) continue;
-
-            if (this.overlaps(e)) {
-                if (this.vel.y > 0) { //goes down
-                    this.pos.y = e.top - this.size.y;
-                    this.vel.y = 0;
-                } else if (this.vel.y < 0) { //goes up
-                    this.pos.y = e.bottom;
-                    this.vel.y = 0;
-                }
-
-                this.collideEvent(e);
-            }
-        }
-    }
-
     update() {
         if (Math.abs(this.vel.x) <= Epsilon) {
             this.vel.x = 0;

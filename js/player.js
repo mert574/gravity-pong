@@ -10,9 +10,9 @@ export default class Player extends Entity {
     constructor(x, y, w=80, h=16) {
         super('bar', x, y, w, h);
 
-        const km = new KeyManager();
-        km.addKey(37, isPressed=>{ K_LEFT = isPressed });
-        km.addKey(39, isPressed=>{ K_RIGHT = isPressed });
+        this.keyManager = new KeyManager();
+        this.keyManager.addKey(37, isPressed=>{ K_LEFT = isPressed });
+        this.keyManager.addKey(39, isPressed=>{ K_RIGHT = isPressed });
     }
 
     update(deltaTime) {
