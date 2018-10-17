@@ -1,13 +1,15 @@
 import Vec2 from './vec2.js';
 
-const Epsilon = 499;
+export const Epsilon = 499;
 
 export default class Entity {
-    constructor() {
-        this.pos = new Vec2();
-        this.size = new Vec2();
+    constructor(type, x, y, w, h) {
+        this.type = type || 'solid';
+
+        this.pos = new Vec2(x, y);
+        this.size = new Vec2(w, h);
         this.vel = new Vec2();
-        this.type = 'solid';
+        
         this.gravity = 0;
         this.color = '#fff';
     }
@@ -92,6 +94,5 @@ export default class Entity {
     }
 
     collideEvent() {
-        return false;
     }
 }
