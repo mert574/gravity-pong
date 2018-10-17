@@ -3,6 +3,7 @@ import Ball from './ball.js';
 import Player from './player.js';
 
 let lastTime = 0;
+const EPSILON = 10;
 
 export default class GameManager {
     constructor(context, width, height, ballSize=8) {
@@ -83,7 +84,12 @@ export default class GameManager {
         entity.pos.y += nY;
         this.checkY(entity);
     
-        entity.vel.sub(nX, nY);
+        entity.vel.sub(nX * entity.dragCoefficient, nY * entity.dragCoefficient);
+
+        if (Math.abs(entity.vel.x) < EPSILON)
+            entity.vel.x = 0;
+        if (Math.abs(entity.vel.y) < EPSILON)
+            entity.vel.y = 0;
     }
     
     checkX(entity) {

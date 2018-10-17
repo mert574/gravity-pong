@@ -1,7 +1,5 @@
 import Vec2 from './vec2.js';
 
-export const Epsilon = 499;
-
 export default class Entity {
     constructor(type, x, y, w, h) {
         this.type = type || 'solid';
@@ -11,6 +9,7 @@ export default class Entity {
         this.vel = new Vec2();
         
         this.gravity = 0;
+        this.dragCoefficient = 1;
         this.color = '#fff';
     }
     
@@ -22,13 +21,6 @@ export default class Entity {
     }
 
     update() {
-        if (Math.abs(this.vel.x) <= Epsilon) {
-            this.vel.x = 0;
-        }
-        if (Math.abs(this.vel.y) <= Epsilon) {
-            this.vel.y = 0;
-        }
-
         this.vel.y += this.gravity;
     }
 
