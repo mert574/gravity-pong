@@ -5,7 +5,6 @@ import Player from './player.js';
 let lastTime = 0;
 const EPSILON = 10;
 
-
 export default class GameManager {
     constructor(context, width, height, ballSize=8) {
         this.context = context;
@@ -21,6 +20,12 @@ export default class GameManager {
         this.update = this.update.bind(this);
 
         this.started = false;
+
+        document.addEventListener('keypress', event=>{            
+            if (!this.started) {
+                this.started = true;
+            }
+        });
     }
 
     init() {
@@ -29,11 +34,10 @@ export default class GameManager {
         }
 
         this.started = true;
-
         this.entities = [];
 
         this.player = new Player(30, this.width-50);
-        this.opponent = new Entity('bar', this.height-50, this.width-50, 80, 30);
+        this.opponent = new Entity('bar', this.height-110, this.width-50, 80, 16);
         this.ball = new Ball(106, (this.width/2)-160, this.ballSize);
     
         this.entities.push(this.player);
@@ -48,7 +52,7 @@ export default class GameManager {
         this.entities.push(
             new Entity('fixed', 0, -5,this.width, 5));
         this.entities.push(
-            new Entity('gameover', 0, this.height, this.width, 5));
+            new Entity('scoreTrigger', 0, this.height, this.width, 5));
 
         this.entities.push(
             new Entity('fixed', (this.width/2) - this.middleBarW/2, 
@@ -59,27 +63,56 @@ export default class GameManager {
         const delta = (d - lastTime) / 1000;
         lastTime = d;
     
-        this.context.fillStyle = '#000';
-        this.context.fillRect(0, 0, this.width, this.height);
-    
-        for (let e of this.entities) {
-            e.update(delta);
-            this._applyVelocity(e, delta);
-            e.draw(this.context);
+        if (this.started || d === 0) {
+            this.context.fillStyle = '#000';
+            this.context.fillRect(0, 0, this.width, this.height);
+        
+            for (let e of this.entities) {
+                e.update(delta);
+                this._applyVelocity(e, delta);
+                e.draw(this.context);
+            }
+
+            this.context.fillText(`Score1: ${this.score[0]}\t||\tScore2: ${this.score[1]}`, 10, 10);
         }
-    
+        
         requestAnimationFrame(this.update);
     }
 
     start() {
-        this.update();
+        this.score = [0, 0];
+        this.newRound();
+        this.update(0);
     }
 
     restart() {
         this.player.keyManager.destroy();
-
         this.init();
         this.start();
+    }
+
+    gameOver() {
+        this.started = false;
+        console.log('game over! score: ', this.score);
+    }
+
+    addScore() {
+        const middleOfBall = this.ball.left + this.ball.size.y/2;
+        const middleOfScreen = this.width/2;
+
+        if (middleOfBall > middleOfScreen) {
+            this.score[0]++;
+        } else if (middleOfBall < middleOfScreen) {
+            this.score[1]++;
+        }
+    }
+
+    newRound() {
+        const randSwing = Math.max(Math.random() * 500, 100) * (Math.random() > 0.5 ? -1 : 1);
+
+        this.started = false;
+        this.ball.pos.set((this.width/2) - this.ballSize/2, 25);
+        this.ball.vel.set(randSwing, 0);
     }
 
     _applyVelocity(entity, delta) {
@@ -105,6 +138,13 @@ export default class GameManager {
             if (e === entity) continue;
 
             if (entity.overlaps(e)) {
+
+                if (e.type === 'scoreTrigger') {
+                    this.addScore();
+                    this.newRound();
+                    return;
+                }
+
                 if (entity.vel.x > 0) { //goes right
                     entity.pos.x = e.left - entity.size.x;
                     entity.vel.x = 0;
@@ -124,6 +164,12 @@ export default class GameManager {
             if (e === entity) continue;
 
             if (entity.overlaps(e)) {
+                if (e.type === 'scoreTrigger') {
+                    this.addScore(e);
+                    this.newRound();
+                    return;
+                }
+
                 if (entity.vel.y > 0) { //goes down
                     entity.pos.y = e.top - entity.size.y;
                     entity.vel.y = 0;

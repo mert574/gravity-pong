@@ -26,11 +26,8 @@ export default class Ball extends Entity {
                 } else if (entity.left === this.right) {
                     this.vel.x = this.jumpSpeed / -5;
                 } else if (entity.top === this.bottom) {
-                    //this.vel.x = this.jumpSpeed / 5 * (Math.random() > 0.5 ? -1 : 1);
                     this.bounce(this.vel.y / 20);
                 }
-            } else if (entity.type === 'gameover') {
-                //TODO: add game over
             }
         };
     }
