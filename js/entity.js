@@ -40,6 +40,10 @@ export default class Entity {
         return this.top + this.size.y;
     }
 
+    get middle() {
+        return this.left + this.size.y / 2;
+    }
+
     draw(context) {
         context.fillStyle = this.color;
 

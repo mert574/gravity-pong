@@ -13,7 +13,7 @@ export default class Ball extends Entity {
         this.collideEvent = entity => {
             if (entity.type === 'bar' && this.jumping <= 0) {
                 const diff = (entity.pos.x + entity.size.x / 2) - this.pos.x;
-                this.vel.x = diff * - 6;
+                this.vel.x = diff * -6;
 
                 let heightCoeff = 1 - (Math.abs(diff) / 40);
                 heightCoeff = Math.min(1, Math.max(0.5, heightCoeff));

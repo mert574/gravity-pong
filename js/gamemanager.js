@@ -1,6 +1,7 @@
 import Entity from './entity.js';
 import Ball from './ball.js';
 import Player from './player.js';
+import Opponent from './opponent.js';
 
 let lastTime = 0;
 const EPSILON = 10;
@@ -37,8 +38,8 @@ export default class GameManager {
         this.entities = [];
 
         this.player = new Player(30, this.width-50);
-        this.opponent = new Entity('bar', this.height-110, this.width-50, 80, 16);
         this.ball = new Ball(106, (this.width/2)-160, this.ballSize);
+        this.opponent = new Opponent(this.height-110, this.width-50, 80, 16, this.ball, this.width/2);
     
         this.entities.push(this.player);
         this.entities.push(this.opponent);
