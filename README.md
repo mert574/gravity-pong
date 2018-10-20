@@ -11,3 +11,6 @@ serve
 ```
 
 runs on port 5000
+
+# Demo
+[Play now](https://mert574.github.io/gravity-pong/)
