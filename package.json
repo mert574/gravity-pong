@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "Pong game created in JS",
   "scripts": {
-    "start": "./node_modules/.bin/serve"
+    "start": "serve ."
   },
   "author": "IRL",
   "license": "MIT",
-  "dependencies": {
-    "serve": "^10.0.2"
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "devDependencies": {
+    "serve": "14.2.6"
   }
 }

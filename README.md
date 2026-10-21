@@ -5,6 +5,8 @@ ball in play and compete against a computer-controlled opponent.
 
 ## Run locally
 
+Use Node.js 22.18 or newer.
+
 ```sh
 npm install
 npm start
